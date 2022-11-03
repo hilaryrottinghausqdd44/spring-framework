@@ -65,7 +65,7 @@ public class ConstructorArgumentValues {
 
 	/**
 	 * Copy all given argument values into this object, using separate holder
-	 * instances to keep the values independent from the original object.
+	 * instances to keep the values independent of the original object.
 	 * <p>Note: Identical ValueHolder instances will only be registered once,
 	 * to allow for merging and re-merging of argument value definitions. Distinct
 	 * ValueHolder instances carrying the same content are of course allowed.
@@ -121,8 +121,7 @@ public class ConstructorArgumentValues {
 	 */
 	private void addOrMergeIndexedArgumentValue(Integer key, ValueHolder newValue) {
 		ValueHolder currentValue = this.indexedArgumentValues.get(key);
-		if (currentValue != null && newValue.getValue() instanceof Mergeable) {
-			Mergeable mergeable = (Mergeable) newValue.getValue();
+		if (currentValue != null && newValue.getValue() instanceof Mergeable mergeable) {
 			if (mergeable.isMergeEnabled()) {
 				newValue.setValue(mergeable.merge(currentValue.getValue()));
 			}
@@ -230,8 +229,7 @@ public class ConstructorArgumentValues {
 			for (Iterator<ValueHolder> it = this.genericArgumentValues.iterator(); it.hasNext();) {
 				ValueHolder currentValue = it.next();
 				if (newValue.getName().equals(currentValue.getName())) {
-					if (newValue.getValue() instanceof Mergeable) {
-						Mergeable mergeable = (Mergeable) newValue.getValue();
+					if (newValue.getValue() instanceof Mergeable mergeable) {
 						if (mergeable.isMergeEnabled()) {
 							newValue.setValue(mergeable.merge(currentValue.getValue()));
 						}

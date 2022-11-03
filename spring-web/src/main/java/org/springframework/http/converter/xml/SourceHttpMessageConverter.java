@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2021 the original author or authors.
+ * Copyright 2002-2022 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -73,7 +73,7 @@ public class SourceHttpMessageConverter<T extends Source> extends AbstractHttpMe
 			(publicId, systemId) -> new InputSource(new StringReader(""));
 
 	private static final XMLResolver NO_OP_XML_RESOLVER =
-			(publicID, systemID, base, ns) -> StreamUtils.emptyInput();
+			(publicID, systemID, base, ns) -> InputStream.nullInputStream();
 
 	private static final Set<Class<?>> SUPPORTED_CLASSES = new HashSet<>(8);
 
@@ -148,7 +148,7 @@ public class SourceHttpMessageConverter<T extends Source> extends AbstractHttpMe
 	protected T readInternal(Class<? extends T> clazz, HttpInputMessage inputMessage)
 			throws IOException, HttpMessageNotReadableException {
 
-		InputStream body = inputMessage.getBody();
+		InputStream body = StreamUtils.nonClosing(inputMessage.getBody());
 		if (DOMSource.class == clazz) {
 			return (T) readDOMSource(body, inputMessage);
 		}
